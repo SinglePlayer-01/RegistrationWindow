@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseWindow.h" />
+    <ClInclude Include="CustomMessage.h" />
     <ClInclude Include="RegistrationWindow.h" />
     <ClInclude Include="RegistrationWindow_Graphic_Parameters.h" />
   </ItemGroup>
