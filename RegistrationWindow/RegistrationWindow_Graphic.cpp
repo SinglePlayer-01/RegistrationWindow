@@ -127,7 +127,7 @@ HRESULT RegistrationWindow::Create_GraphicResource()
     return hr;
 }
 
-void RegistrationWindow::Draw_WallPaper()
+void RegistrationWindow::Draw_First_Frame()
 {
     HRESULT hr = Create_GraphicResource();
     if (hr == S_OK)
@@ -151,9 +151,9 @@ void RegistrationWindow::Draw_WallPaper()
         m_pRenderTarget->FillRoundedRectangle(enterField_Password, m_pGradBrush_wallpaper);
         m_pRenderTarget->FillRoundedRectangle(enterField_RepeatPassword, m_pGradBrush_wallpaper);
 
-        m_pRenderTarget->DrawRoundedRectangle(enterField_Login, m_pGradBrush_enterfield);
-        m_pRenderTarget->DrawRoundedRectangle(enterField_Password, m_pGradBrush_enterfield);
-        m_pRenderTarget->DrawRoundedRectangle(enterField_RepeatPassword, m_pGradBrush_enterfield);
+        m_pRenderTarget->DrawRoundedRectangle(enterField_Login, m_pGradBrush_enterfield, 2.0f);
+        m_pRenderTarget->DrawRoundedRectangle(enterField_Password, m_pGradBrush_enterfield,2.0f);
+        m_pRenderTarget->DrawRoundedRectangle(enterField_RepeatPassword, m_pGradBrush_enterfield, 2.0f);
 
         m_pRenderTarget->DrawText(L"Login", ARRAYSIZE(L"Login"), m_pTextFormat_1, rect_text_login, m_pSolBrus_text);
         m_pRenderTarget->DrawText(L"Password", ARRAYSIZE(L"Password"), m_pTextFormat_1, rect_text_Password, m_pSolBrus_text);
@@ -166,6 +166,107 @@ void RegistrationWindow::Draw_WallPaper()
         m_pRenderTarget->DrawText(L"1", ARRAYSIZE(L"1"), m_pTextFormat_2, D2D1::RectF(LineBar_circle_1.point.x - 15, LineBar_circle_1.point.y - 15, LineBar_circle_1.point.x + 15, LineBar_circle_1.point.y + 15), m_pSolBrush_LineBar_Number);
         m_pRenderTarget->DrawText(L"2", ARRAYSIZE(L"2"), m_pTextFormat_2, D2D1::RectF(LineBar_circle_2.point.x - 15, LineBar_circle_2.point.y - 15, LineBar_circle_2.point.x + 15, LineBar_circle_2.point.y + 15), m_pSolBrush_LineBar_Number);
         m_pRenderTarget->DrawText(L"3", ARRAYSIZE(L"3"), m_pTextFormat_2, D2D1::RectF(LineBar_circle_3.point.x - 15, LineBar_circle_3.point.y - 15, LineBar_circle_3.point.x + 15, LineBar_circle_3.point.y + 15), m_pSolBrush_LineBar_Number);
+
+        m_pRenderTarget->EndDraw();
+
+        EndPaint(m_hwnd, &ps);
+
+    }
+}
+
+void RegistrationWindow::Draw_Second_Frame()
+{
+
+        PAINTSTRUCT ps{ };
+
+        HDC hdc = BeginPaint(m_hwnd, &ps);
+
+        m_pRenderTarget->BindDC(hdc, &rc);
+        m_pRenderTarget->BeginDraw();
+
+        m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+        MessageBox(NULL, L"OK", L"OKds", MB_OK);
+        m_pRenderTarget->EndDraw();
+
+        EndPaint(m_hwnd, &ps);
+
+}
+
+//////////////////////////////////////////////////////////////////
+
+void CustomButton::Discard_GraphicResource()
+{
+    SafeRelease(&m_pFactory_graphic);
+    SafeRelease(&m_pRenderTarget);
+    SafeRelease(&m_pStopcollection);
+    SafeRelease(&m_pGradBrush_wallpaper);
+    SafeRelease(&m_pSolBrus);
+}
+
+HRESULT CustomButton::Create_Factory()
+{
+    HRESULT hr = S_OK;
+    if (D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pFactory_graphic) == S_FALSE)
+    {
+        return hr = S_FALSE;
+    }
+    return hr;
+}
+
+HRESULT CustomButton::Create_GraphicResource()
+{
+    HRESULT hr = S_OK;
+
+    RECT rc;
+    GetClientRect(m_hwnd, &rc);
+
+    if (m_pRenderTarget == NULL)
+    {
+        hr = m_pFactory_graphic->CreateDCRenderTarget(&props, &m_pRenderTarget);
+        RECT rc;
+        GetClientRect(m_hwnd, &rc);
+        // Create Linear gradient brush for WallPaper
+        if (hr == S_OK)
+        {
+            D2D1_GRADIENT_STOP stop[2];
+            stop[0].color = color_enterField_1;
+            stop[0].position = 0.0f;
+            stop[1].color = color_enterField_2;
+            stop[1].position = 1.0f;
+
+            m_pRenderTarget->CreateGradientStopCollection(stop, 2, D2D1_GAMMA_2_2, D2D1_EXTEND_MODE_CLAMP, &m_pStopcollection);
+
+            hr = m_pRenderTarget->CreateLinearGradientBrush(D2D1::LinearGradientBrushProperties(D2D1::Point2F(0, 0), D2D1::Point2F(rc.right, rc.bottom)), m_pStopcollection, &m_pGradBrush_wallpaper);
+        }
+        // Create SolidColor brushes for wallpaper
+        if (hr == S_OK)
+        {
+            m_pRenderTarget->CreateSolidColorBrush(color_wallpaper_ellipse_1, &m_pSolBrus);
+        }
+    }
+    return hr;
+}
+
+void CustomButton::Draw_Button()
+{
+    HRESULT hr = Create_GraphicResource();
+    if (hr == S_OK)
+    {
+        RECT rc;
+        GetClientRect(m_hwnd, &rc);
+
+        PAINTSTRUCT ps{ };
+
+        HDC hdc = BeginPaint(m_hwnd, &ps);
+
+        m_pRenderTarget->BindDC(hdc, &rc);
+        m_pRenderTarget->BeginDraw();
+        
+        m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(rc.right / 2, rc.bottom / 2), rc.right / 2 - 2, rc.bottom / 2 - 2), m_pGradBrush_wallpaper,4);
+        m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(rc.right / 2, rc.bottom / 2), rc.right / 2 - 2 , rc.bottom / 2 - 2), m_pSolBrus);
+        m_pRenderTarget->DrawLine(D2D1::Point2F(10, 24), D2D1::Point2F(40, 24), m_pGradBrush_wallpaper, 3);
+        m_pRenderTarget->DrawLine(D2D1::Point2F(40, 24), D2D1::Point2F(25, 32), m_pGradBrush_wallpaper, 3);
+        m_pRenderTarget->DrawLine(D2D1::Point2F(40, 24), D2D1::Point2F(25, 16), m_pGradBrush_wallpaper, 3);
 
         m_pRenderTarget->EndDraw();
 

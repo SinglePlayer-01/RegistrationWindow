@@ -35,5 +35,8 @@
     <ClInclude Include="RegistrationWindow_Graphic_Parameters.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="CustomMessage.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
