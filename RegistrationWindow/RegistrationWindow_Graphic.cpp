@@ -42,6 +42,8 @@ void RegistrationWindow::Discard_WriteResource()
     SafeRelease(&m_pFactory_text);
     SafeRelease(&m_pTextFormat_1);
     SafeRelease(&m_pTextFormat_2);
+    SafeRelease(&m_pTextFormat_3);
+    SafeRelease(&m_pTextFormat_4);
 }
 
 HRESULT RegistrationWindow::Create_Factory()
@@ -116,12 +118,21 @@ HRESULT RegistrationWindow::Create_GraphicResource()
         {
             m_pFactory_text->CreateTextFormat(L"Stadio Now Monolinea", NULL, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 24.0f, L"en-us", &m_pTextFormat_1);
             m_pFactory_text->CreateTextFormat(L"Stadio Now Monolinea", NULL, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 18.0f, L"en-us", &m_pTextFormat_2);
+            m_pFactory_text->CreateTextFormat(L"Stadio Now Monolinea", NULL, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 14.0f, L"en-us", &m_pTextFormat_3);
+            m_pFactory_text->CreateTextFormat(L"Stadio Now Monolinea", NULL, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 18.0f, L"en-us", &m_pTextFormat_4);
+
 
             m_pTextFormat_1->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
             m_pTextFormat_1->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 
             m_pTextFormat_2->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
             m_pTextFormat_2->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+
+            m_pTextFormat_3->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+            m_pTextFormat_3->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+
+            m_pTextFormat_4->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+            m_pTextFormat_4->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
         }
     }
     return hr;
@@ -204,7 +215,6 @@ void RegistrationWindow::Draw_Second_Frame()
         m_pRenderTarget->DrawText(L"Email adress", ARRAYSIZE(L"Email adress"), m_pTextFormat_1, Frame_2_rect_text_EmailAdress, m_pSolBrus_text);
         m_pRenderTarget->DrawText(L"Confirm your address", ARRAYSIZE(L"Confirm your address"), m_pTextFormat_1, Frame_2_rect_text_ConfirmYourAddress, m_pSolBrus_text);
 
-
         // Draw linier bar
         m_pRenderTarget->DrawLine(D2D1::Point2F(190, 335), D2D1::Point2F(430, 335), m_pSolBrush_LineBar_2, 5.0f);
         m_pRenderTarget->DrawLine(D2D1::Point2F(190, 335), D2D1::Point2F(310, 335), m_pSolBrush_LineBar_1, 5.0f);
@@ -219,6 +229,52 @@ void RegistrationWindow::Draw_Second_Frame()
 
         EndPaint(m_hwnd, &ps);
 
+}
+
+void RegistrationWindow::Draw_Third_Frame()
+{
+    PAINTSTRUCT ps{ };
+
+    HDC hdc = BeginPaint(m_hwnd, &ps);
+
+    m_pRenderTarget->BindDC(hdc, &rc);
+    m_pRenderTarget->BeginDraw();
+
+    // Draw WallPaper
+    m_pRenderTarget->FillRectangle(D2D1::RectF(0, 0, rc.right, rc.bottom), m_pGradBrush_wallpaper);
+    m_pRenderTarget->FillEllipse(wallpaper_circle_1, m_pSolBrus_ellipse_1);
+    m_pRenderTarget->FillEllipse(wallpaper_circle_2, m_pSolBrus_ellipse_2);
+    m_pRenderTarget->FillEllipse(wallpaper_circle_3, m_pSolBrus_ellipse_3);
+    m_pRenderTarget->FillEllipse(wallpaper_circle_4, m_pSolBrus_ellipse_4);
+    m_pRenderTarget->FillEllipse(wallpaper_circle_5, m_pSolBrus_ellipse_5);
+    m_pRenderTarget->FillEllipse(wallpaper_circle_6, m_pSolBrus_ellipse_6);
+    m_pRenderTarget->FillEllipse(wallpaper_circle_7, m_pSolBrus_ellipse_7);
+
+    // Draw incstuction for users
+    m_pRenderTarget->DrawText(L"A verification code has been sent to the email address you provided:", ARRAYSIZE(L"A verification code has been sent to the email address you provided:"), m_pTextFormat_3, Frame_3_rect_text_Instruction_1, m_pSolBrus_text);
+    m_pRenderTarget->DrawText(L"EmailAddress@gmail.com", ARRAYSIZE(L"EmailAddress@gmail.com"), m_pTextFormat_3, Frame_3_rect_text_Instruction_2, m_pGradBrush_enterfield);
+    m_pRenderTarget->DrawText(L"Please check your inbox and enter the code below to complete your registration", ARRAYSIZE(L"Please check your inbox and enter the code below to complete your registration"), m_pTextFormat_3, Frame_3_rect_text_Instruction_3, m_pSolBrus_text);
+
+    // Draw text under verificate
+    m_pRenderTarget->DrawText(L"Enter your verification code", ARRAYSIZE(L"Enter your verification code"), m_pTextFormat_4, Frame_3_rect_text_EnterVerificationCode, m_pSolBrus_text);
+
+    // Draw enter field for Verificate code
+    m_pRenderTarget->FillRoundedRectangle(Frame_3_enterField_VerifiCode, m_pGradBrush_wallpaper);
+    m_pRenderTarget->DrawRoundedRectangle(Frame_3_enterField_VerifiCode, m_pGradBrush_enterfield, 2.0f);
+
+    // Draw linier bar
+    m_pRenderTarget->DrawLine(D2D1::Point2F(190, 335), D2D1::Point2F(430, 335), m_pSolBrush_LineBar_2, 5.0f);
+    m_pRenderTarget->DrawLine(D2D1::Point2F(190, 335), D2D1::Point2F(430, 335), m_pSolBrush_LineBar_1, 5.0f);
+    m_pRenderTarget->FillEllipse(LineBar_circle_1, m_pSolBrush_LineBar_1);
+    m_pRenderTarget->FillEllipse(LineBar_circle_2, m_pSolBrush_LineBar_1);
+    m_pRenderTarget->FillEllipse(LineBar_circle_3, m_pSolBrush_LineBar_1);
+    m_pRenderTarget->DrawText(L"1", ARRAYSIZE(L"1"), m_pTextFormat_2, D2D1::RectF(LineBar_circle_1.point.x - 15, LineBar_circle_1.point.y - 15, LineBar_circle_1.point.x + 15, LineBar_circle_1.point.y + 15), m_pSolBrush_LineBar_Number);
+    m_pRenderTarget->DrawText(L"2", ARRAYSIZE(L"2"), m_pTextFormat_2, D2D1::RectF(LineBar_circle_2.point.x - 15, LineBar_circle_2.point.y - 15, LineBar_circle_2.point.x + 15, LineBar_circle_2.point.y + 15), m_pSolBrush_LineBar_Number);
+    m_pRenderTarget->DrawText(L"3", ARRAYSIZE(L"3"), m_pTextFormat_2, D2D1::RectF(LineBar_circle_3.point.x - 15, LineBar_circle_3.point.y - 15, LineBar_circle_3.point.x + 15, LineBar_circle_3.point.y + 15), m_pSolBrush_LineBar_Number);
+
+    m_pRenderTarget->EndDraw();
+
+    EndPaint(m_hwnd, &ps);
 }
 
 //////////////////////////////////////////////////////////////////

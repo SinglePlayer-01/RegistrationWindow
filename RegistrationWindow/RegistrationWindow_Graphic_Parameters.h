@@ -40,6 +40,11 @@ D2D1_RECT_F Frame_1_rect_text_Registration = D2D1::RectF(68, 263, 206, 274);
 D2D1_RECT_F Frame_1_rect_text_Help = D2D1::RectF(451, 244, 300, 290);
 D2D1_RECT_F Frame_2_rect_text_EmailAdress = D2D1::RectF(170, 65, 460, 90);
 D2D1_RECT_F Frame_2_rect_text_ConfirmYourAddress = D2D1::RectF(180, 165, 430, 190);
+D2D1_RECT_F Frame_3_rect_text_Instruction_1 = D2D1::RectF(50, 15, 300, 95);
+D2D1_RECT_F Frame_3_rect_text_Instruction_2 = D2D1::RectF(50, 105, 300, 120);
+D2D1_RECT_F Frame_3_rect_text_Instruction_3 = D2D1::RectF(50, 155, 300, 195);
+D2D1_RECT_F Frame_3_rect_text_EnterVerificationCode = D2D1::RectF(50, 225, 290, 250);
+
 
 // Coordinats for Round Rect
 D2D1_RECT_F Frame_1_rect_EnterField_Login = D2D1::RectF(158.5, 50, 463.5, 95);
@@ -53,3 +58,6 @@ D2D1_RECT_F Frame_2_rect_EnterField_Login = D2D1::RectF(158.5, 100, 463.5, 145);
 D2D1_RECT_F Frame_2_rect_EnterField_Password = D2D1::RectF(158.5, 202, 463.5, 247);
 D2D1_ROUNDED_RECT Frame_2_enterField_Login = D2D1::RoundedRect(Frame_2_rect_EnterField_Login, 30, 30);
 D2D1_ROUNDED_RECT Frame_2_enterField_Password = D2D1::RoundedRect(Frame_2_rect_EnterField_Password, 30, 30);
+
+D2D1_RECT_F Frame_3_rect_EnterField_VerifiCode = D2D1::RectF(50, 260, 300, 290);
+D2D1_ROUNDED_RECT Frame_3_enterField_VerifiCode = D2D1::RoundedRect(Frame_3_rect_EnterField_VerifiCode, 10, 10);

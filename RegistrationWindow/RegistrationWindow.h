@@ -45,9 +45,12 @@ class RegistrationWindow : public BaseWindow<RegistrationWindow>
 	RECT rc;
 
 	// HWND for our interface's
-	HWND edit_Login;
-	HWND edit_Password;
-	HWND edit_RepeatPassword;
+	HWND Frame_1_edit_Login;
+	HWND Frame_1_edit_Password;
+	HWND Frame_1_edit_RepeatPassword;
+	HWND Frame_2_edit_EmailAddress;
+	HWND Frame_2_edit_ConfiemAddress;
+	HWND Frame_3_edit_Verification;
 	HWND Button_next;
 
 	int Frame_count = NULL;
@@ -77,12 +80,15 @@ class RegistrationWindow : public BaseWindow<RegistrationWindow>
 	IDWriteFactory* m_pFactory_text;
 	IDWriteTextFormat* m_pTextFormat_1;
 	IDWriteTextFormat* m_pTextFormat_2;
+	IDWriteTextFormat* m_pTextFormat_3;
+	IDWriteTextFormat* m_pTextFormat_4;
 
 	// Graphic our functions
 	HRESULT Create_Factory();
 	HRESULT Create_GraphicResource();
 	void	Draw_First_Frame();
 	void	Draw_Second_Frame();
+	void	Draw_Third_Frame();
 	void	Discard_GraphicResource();
 	void	Discard_WriteResource();
 
