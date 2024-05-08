@@ -115,7 +115,7 @@ HRESULT RegistrationWindow::Create_GraphicResource()
         if (hr == S_OK)
         {
             m_pFactory_text->CreateTextFormat(L"Stadio Now Monolinea", NULL, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 24.0f, L"en-us", &m_pTextFormat_1);
-            m_pFactory_text->CreateTextFormat(L"Stadio Now Monolinea", NULL, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 14.0f, L"en-us", &m_pTextFormat_2);
+            m_pFactory_text->CreateTextFormat(L"Stadio Now Monolinea", NULL, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 18.0f, L"en-us", &m_pTextFormat_2);
 
             m_pTextFormat_1->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
             m_pTextFormat_1->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
@@ -147,17 +147,17 @@ void RegistrationWindow::Draw_First_Frame()
         m_pRenderTarget->FillEllipse(wallpaper_circle_6, m_pSolBrus_ellipse_6);
         m_pRenderTarget->FillEllipse(wallpaper_circle_7, m_pSolBrus_ellipse_7);
 
-        m_pRenderTarget->FillRoundedRectangle(enterField_Login, m_pGradBrush_wallpaper);
-        m_pRenderTarget->FillRoundedRectangle(enterField_Password, m_pGradBrush_wallpaper);
-        m_pRenderTarget->FillRoundedRectangle(enterField_RepeatPassword, m_pGradBrush_wallpaper);
+        m_pRenderTarget->FillRoundedRectangle(Frame_1_enterField_Login, m_pGradBrush_wallpaper);
+        m_pRenderTarget->FillRoundedRectangle(Frame_1_enterField_Password, m_pGradBrush_wallpaper);
+        m_pRenderTarget->FillRoundedRectangle(Frame_1_enterField_RepeatPassword, m_pGradBrush_wallpaper);
 
-        m_pRenderTarget->DrawRoundedRectangle(enterField_Login, m_pGradBrush_enterfield, 2.0f);
-        m_pRenderTarget->DrawRoundedRectangle(enterField_Password, m_pGradBrush_enterfield,2.0f);
-        m_pRenderTarget->DrawRoundedRectangle(enterField_RepeatPassword, m_pGradBrush_enterfield, 2.0f);
+        m_pRenderTarget->DrawRoundedRectangle(Frame_1_enterField_Login, m_pGradBrush_enterfield, 2.0f);
+        m_pRenderTarget->DrawRoundedRectangle(Frame_1_enterField_Password, m_pGradBrush_enterfield,2.0f);
+        m_pRenderTarget->DrawRoundedRectangle(Frame_1_enterField_RepeatPassword, m_pGradBrush_enterfield, 2.0f);
 
-        m_pRenderTarget->DrawText(L"Login", ARRAYSIZE(L"Login"), m_pTextFormat_1, rect_text_login, m_pSolBrus_text);
-        m_pRenderTarget->DrawText(L"Password", ARRAYSIZE(L"Password"), m_pTextFormat_1, rect_text_Password, m_pSolBrus_text);
-        m_pRenderTarget->DrawText(L"Repeat Password", ARRAYSIZE(L"Repeat Password"), m_pTextFormat_1, rect_text_RepeatPassword, m_pSolBrus_text);
+        m_pRenderTarget->DrawText(L"Login", ARRAYSIZE(L"Login"), m_pTextFormat_1, Frame_1_rect_text_login, m_pSolBrus_text);
+        m_pRenderTarget->DrawText(L"Password", ARRAYSIZE(L"Password"), m_pTextFormat_1, Frame_1_rect_text_Password, m_pSolBrus_text);
+        m_pRenderTarget->DrawText(L"Repeat Password", ARRAYSIZE(L"Repeat Password"), m_pTextFormat_1, Frame_1_rect_text_RepeatPassword, m_pSolBrus_text);
 
         m_pRenderTarget->DrawLine(D2D1::Point2F(190, 335), D2D1::Point2F(430, 335), m_pSolBrush_LineBar_2, 5.0f);
         m_pRenderTarget->FillEllipse(LineBar_circle_1, m_pSolBrush_LineBar_1);
@@ -183,9 +183,38 @@ void RegistrationWindow::Draw_Second_Frame()
 
         m_pRenderTarget->BindDC(hdc, &rc);
         m_pRenderTarget->BeginDraw();
+        
+        // Draw WallPaper
+        m_pRenderTarget->FillRectangle(D2D1::RectF(0, 0, rc.right, rc.bottom), m_pGradBrush_wallpaper);
+        m_pRenderTarget->FillEllipse(wallpaper_circle_1, m_pSolBrus_ellipse_1);
+        m_pRenderTarget->FillEllipse(wallpaper_circle_2, m_pSolBrus_ellipse_2);
+        m_pRenderTarget->FillEllipse(wallpaper_circle_3, m_pSolBrus_ellipse_3);
+        m_pRenderTarget->FillEllipse(wallpaper_circle_4, m_pSolBrus_ellipse_4);
+        m_pRenderTarget->FillEllipse(wallpaper_circle_5, m_pSolBrus_ellipse_5);
+        m_pRenderTarget->FillEllipse(wallpaper_circle_6, m_pSolBrus_ellipse_6);
+        m_pRenderTarget->FillEllipse(wallpaper_circle_7, m_pSolBrus_ellipse_7);
+        
+        // Draw enterfields
+        m_pRenderTarget->FillRoundedRectangle(Frame_2_enterField_Login, m_pGradBrush_wallpaper);
+        m_pRenderTarget->FillRoundedRectangle(Frame_2_enterField_Password, m_pGradBrush_wallpaper);
+        m_pRenderTarget->DrawRoundedRectangle(Frame_2_enterField_Login, m_pGradBrush_enterfield, 2.0f);
+        m_pRenderTarget->DrawRoundedRectangle(Frame_2_enterField_Password, m_pGradBrush_enterfield, 2.0f);
 
-        m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
-        MessageBox(NULL, L"OK", L"OKds", MB_OK);
+        // Draw text under enterfieldes
+        m_pRenderTarget->DrawText(L"Email adress", ARRAYSIZE(L"Email adress"), m_pTextFormat_1, Frame_2_rect_text_EmailAdress, m_pSolBrus_text);
+        m_pRenderTarget->DrawText(L"Confirm your address", ARRAYSIZE(L"Confirm your address"), m_pTextFormat_1, Frame_2_rect_text_ConfirmYourAddress, m_pSolBrus_text);
+
+
+        // Draw linier bar
+        m_pRenderTarget->DrawLine(D2D1::Point2F(190, 335), D2D1::Point2F(430, 335), m_pSolBrush_LineBar_2, 5.0f);
+        m_pRenderTarget->DrawLine(D2D1::Point2F(190, 335), D2D1::Point2F(310, 335), m_pSolBrush_LineBar_1, 5.0f);
+        m_pRenderTarget->FillEllipse(LineBar_circle_1, m_pSolBrush_LineBar_1);
+        m_pRenderTarget->FillEllipse(LineBar_circle_2, m_pSolBrush_LineBar_1);
+        m_pRenderTarget->FillEllipse(LineBar_circle_3, m_pSolBrush_LineBar_2);
+        m_pRenderTarget->DrawText(L"1", ARRAYSIZE(L"1"), m_pTextFormat_2, D2D1::RectF(LineBar_circle_1.point.x - 15, LineBar_circle_1.point.y - 15, LineBar_circle_1.point.x + 15, LineBar_circle_1.point.y + 15), m_pSolBrush_LineBar_Number);
+        m_pRenderTarget->DrawText(L"2", ARRAYSIZE(L"2"), m_pTextFormat_2, D2D1::RectF(LineBar_circle_2.point.x - 15, LineBar_circle_2.point.y - 15, LineBar_circle_2.point.x + 15, LineBar_circle_2.point.y + 15), m_pSolBrush_LineBar_Number);
+        m_pRenderTarget->DrawText(L"3", ARRAYSIZE(L"3"), m_pTextFormat_2, D2D1::RectF(LineBar_circle_3.point.x - 15, LineBar_circle_3.point.y - 15, LineBar_circle_3.point.x + 15, LineBar_circle_3.point.y + 15), m_pSolBrush_LineBar_Number);
+
         m_pRenderTarget->EndDraw();
 
         EndPaint(m_hwnd, &ps);
